@@ -1,20 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Question
+from .models import Question, Choice
 
 def index(request):
-   return HttpResponse('Index of polls.')
+   questions = Question.objects.all()
+   return render(request, 'polls/index.html', {'questions': questions})
 
-def detail(request, question_id):
-   return HttpResponse(f'You are looking at question {question_id}')
-
-def results(request, question_id):
-   response = f'You are looking at question {question_id}'
-   return HttpResponse(response)
-
-def vote(request, question_id):
-   return HttpResponse(f'You are voting on question {question_id}')
-
-def get_question(request, question_id):
+def question(request, question_id):
    question = Question.objects.get(id=question_id)
-   return HttpResponse(question)
+   choices = question.choice_set.all()
+   return render(request, 'polls/question.html', {'question': question, 'choices': choices})
+
+def vote(request, choice_id):
+   choice = Choice.objects.get(id=choice_id)
+   choice.votes += 1
+   choice.save()
+
+   return redirect('/polls/thanks')
+
+def thanks(request):
+   return render(request, 'polls/thanks.html')
