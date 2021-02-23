@@ -10,7 +10,7 @@
    <h2>{{question.text}}</h2>
    <ul>
        {% for choice in choices %}
-        <li><a href="/polls/vote/{{choice.id}}"> {{choice.text}} </a><br/>Total votes: {{choice.votes}}</li>  
+        <li><a href="{% url 'polls:vote' choice.id %}"> {{choice.text}} </a><br/>Total votes: {{choice.votes}}</li>  
        {% endfor %}
    </ul>
 </body>
