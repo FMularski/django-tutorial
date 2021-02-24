@@ -1,22 +1,36 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Choice
+from django.urls import reverse
+from django.views import generic
 
-def index(request):
-   questions = Question.objects.all()
-   return render(request, 'polls/index.html', {'questions': questions})
 
-def question(request, question_id):
-   question = get_object_or_404(Question, id=question_id)
-   choices = question.choice_set.all()
-   return render(request, 'polls/question.html', {'question': question, 'choices': choices})
+class IndexView(generic.ListView):
+   template_name = 'polls/index.html'
+   context_object_name = 'questions'
 
-def vote(request, choice_id):
-   choice = Choice.objects.get(id=choice_id)
-   choice.votes += 1
-   choice.save()
+   def get_queryset(self):
+      return Question.objects.order_by('pub_date')[:5]
 
-   return redirect('/polls/thanks')
 
-def thanks(request):
-   return render(request, 'polls/thanks.html')
+class DetailView(generic.DetailView):
+   model = Question
+   template_name = 'polls/detail.html'
+
+
+def vote(request, question_id):
+   question = get_object_or_404(Question, id=question_id)   #  get question or 404
+   try:
+      selected_choice = question.choice_set.get(id=request.POST['choice']) # choice is a radio field with value=1,2,3...
+   except (KeyError, Choice.DoesNotExist):   # no choice selected
+      return render(request, 'polls/detail.html', {'question': question, 'error_msg': 'You did not select a choice.'})   #rerender tmp with error msg
+   else:
+      selected_choice.votes += 1 # increment votes count
+      selected_choice.save()     # save changes
+
+      return HttpResponseRedirect(reverse('polls:results', args=[question_id]))
+
+
+class ResultsView(generic.DetailView):
+   model = Question
+   template_name = 'polls/results.html'

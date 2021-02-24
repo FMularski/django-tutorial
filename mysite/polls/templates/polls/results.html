@@ -7,11 +7,14 @@
     <title>{{question.text}}</title>
 </head>
 <body>
-   <h2>{{question.text}}</h2>
-   <ul>
-       {% for choice in choices %}
-        <li><a href="{% url 'polls:vote' choice.id %}"> {{choice.text}} </a><br/>Total votes: {{choice.votes}}</li>  
-       {% endfor %}
-   </ul>
+    <h1>{{question.text}}</h1>
+
+    <ul>
+        {% for choice in question.choice_set.all %}
+            <li>{{ choice.text}} -- <b>{{choice.votes}} votes</b></li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'polls:index' %}">Go back</a>
 </body>
 </html>
