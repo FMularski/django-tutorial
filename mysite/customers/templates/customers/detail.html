@@ -20,7 +20,7 @@
                 <h2>Orders:</h2>
                 <ul>
                     {% for order in customer.order_set.all %}
-                        <li> <a href="{% url 'customers:order' customer.id order.id %}"> {{order.code}} </a></li>
+                        <li> <a href="{% url 'orders:detail' order.id %}"> {{order.code}} </a></li>
                     {% endfor %}    
                 </ul>
             {% endif %}

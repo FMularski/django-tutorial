@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+<body>
+    <h1>Orders</h1>
+    {% if orders %}
+        {% for order in orders %}
+            <section>
+                <h3><a href="{% url 'orders:detail' order.id %}">[{{order.code}}] -- {{order.customer}}</a></h3>
+            </section>
+        {% endfor %}
+    {% else %}
+        <h2>No orders yet.</h2>
+    {% endif %}
+</body>
+</html>

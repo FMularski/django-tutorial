@@ -1,11 +1,9 @@
 from django.urls import path
 from . import views
 
-
 app_name = 'customers'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('<int:customer_id>/detail/', views.detail, name='detail'),
-    path('<int:customer_id>/detail/orders/<int:order_id>', views.order, name='order')
+    path('', views.CustomersIndexView.as_view(), name='index'),
+    path('<int:pk>/', views.CustomersDetailView.as_view(), name='customer')
 ]

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='code',
-            field=models.CharField(default=customers.models.generate_code, max_length=64, unique=True),
+            field=models.CharField(max_length=64, unique=True),
         ),
         migrations.DeleteModel(
             name='Product',

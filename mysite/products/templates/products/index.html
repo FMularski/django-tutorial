@@ -11,8 +11,9 @@
     {% if products %}
         {% for product in products %}
             <section>
-                <h2>[{{product.code}}] {{product.name}}</h2>
+                <h2> <a href="{% url 'products:detail' product.id %}">[{{product.code}}] {{product.name}}</a></h2>
                 <p>{{product.desc}}</p>
+                <p>{{product.price}}</p>
             </section>
         {% endfor %}
     {% else %}

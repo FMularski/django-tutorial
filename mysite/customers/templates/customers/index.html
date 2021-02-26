@@ -12,7 +12,7 @@
     {% if customers %}
         <ul>
             {% for customer in customers %}
-                <li><a href="{% url 'customers:detail' customer.id%}"> {{customer.name}} </a></li>
+                <li><a href="{% url 'customers:customer' customer.id%}"> {{customer.name}} </a></li>
             {% endfor %}
         </ul>
     {% endif %}
