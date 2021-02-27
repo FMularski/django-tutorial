@@ -18,4 +18,4 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'[{self.code}] {self.date} {self.customer}'
+        return f'[{self.code}]'
